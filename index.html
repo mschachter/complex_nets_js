@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Complex Recurrent Networks with D3</title>
+</head>
+
+<style>
+
+</style>
+
+<body bgcolor="#000">
+
+<svg class="net_container"></svg>
+
+<script src="js/d3.min.js"></script>
+<script src="js/math.min.js"></script>
+<script src="js/zigg_norm.js"></script>
+<script src="js/cnet.js"></script>
+<script>
+
+// set the initial height and width of the container
+var width = 800;
+var height = 800;
+var svg = d3.select(".net_container")
+	.attr("width", width)
+	.attr("height", height);
+
+var padding = 10;
+
+// create a scale for the x and y axis
+var xscale = d3.scale.linear()
+	.domain([-1, 1])
+    .range([padding, width-padding]);
+
+var yscale = d3.scale.linear()
+	.domain([-1, 1])
+    .range([padding, height-padding]);
+
+// set up a mouse event
+var mouseMove = function() {
+	// get the xy coordinates on the svg element
+	var xy = d3.mouse(this);
+
+	// translate the coordinates to the complex plane
+	var re = xscale.invert(xy[0]);
+	var im = yscale.invert(xy[1]);
+	//console.log("mousemove: x=" + xy[0] + ", y=" + xy[1] + ", re=" + re + ", im=" + im);
+	net.attractor = math.complex(re, im);
+}
+svg.on("mousemove", mouseMove);
+
+// function to initialize the network display
+var joinAndEnter = function()
+{
+	var d = d3.select(".net_container").selectAll("circle")
+		.data(net.state)
+		.enter()
+		.append("circle")
+		.attr("cx", function(d) {return xscale(d.re);})
+		.attr("cy", function(d) {return yscale(d.im);})
+		.attr("r", 7)
+		.attr("opacity", 0.65)
+		.style("fill", cnet.randomColor);
+}
+
+// function that updates the display of the network
+var update = function()
+{
+	var d = d3.select(".net_container").selectAll("circle")
+		.data(net.state)		
+		.attr("cx", function(d) {return xscale(d.re);})
+		.attr("cy", function(d) {return yscale(d.im);});		
+}
+
+// function that updates the network and the display
+var refresh = function()
+{	
+	net.step();
+	update();
+}
+
+// initialize the network
+var net = new cnet.ComplexNetwork(numNeurons=100, connectionProbability=0.50);
+
+// set the initial state of the visualization
+joinAndEnter();
+
+// start the main loop
+var frameRate = 10.0;
+var refreshInterval = (1.0 / frameRate) * 1000.0;
+setInterval(refresh, refreshInterval);
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
