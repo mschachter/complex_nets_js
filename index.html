@@ -52,6 +52,36 @@ svg.on("mousemove", mouseMove);
 // function to initialize the network display
 var joinAndEnter = function()
 {
+	var svg = d3.select(".net_container")
+		.append("ellipse")
+		.attr("cx", xscale(0.0))
+		.attr("cy", yscale(0.0))
+		.attr("rx", (width-2*padding)/2.0)
+		.attr("ry", (height-2*padding)/2.0)
+		.attr("opacity", 0.65)
+		.style("fill", "#000")
+		.style("stroke", "#fff")
+		.style("stroke-width", 2);
+
+	var degreeInc = 90;
+	var nlines = 360 / degreeInc;
+	for (var k = 0; k < nlines; k++) {
+
+		var phi = math.PI * ((k*degreeInc) / 180.0);
+		var x = math.cos(phi);
+		var y = math.sin(phi);		
+
+		var svg = d3.select(".net_container")
+			.append("line")
+			.attr("x1", xscale(x))
+	        .attr("y1", yscale(y))
+			.attr("x2", xscale(-x))
+			.attr("y2", yscale(-y))
+			.style("opacity", 0.15)
+			.style("stroke-width", 1)
+			.style("stroke", "#fff");
+	}	
+
 	var d = d3.select(".net_container").selectAll("circle")
 		.data(net.state)
 		.enter()
