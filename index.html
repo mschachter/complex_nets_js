@@ -5,7 +5,14 @@
 </head>
 
 <style>
-
+h3 {
+    font-family: "Sans";
+    color: #FFF
+}
+p {
+    font-family: "Sans";
+    color: #FFF
+}
 </style>
 
 <body bgcolor="#000">
@@ -121,6 +128,24 @@ var refreshInterval = (1.0 / frameRate) * 1000.0;
 setInterval(refresh, refreshInterval);
 
 </script>
+
+<h3>Complex-valued Recurrent Neural Networks</h3>
+
+<p>
+A recurrent neural network (RNN) is a set of neurons that are connected to each other. There are loops in the connectivity; the same information can travel through one neuron in the network several times! The loopy connectivity structure of RNNs endows the networks with a short term "memory". 
+</p>
+
+<p>
+Normally, neurons in the network compute a weighted sum of their inputs, called the <i>activiation</i>, and then the activation is passed through an <i>nonlinear function</i> that produces the neuron's output. That output is then passed around to other neurons in the network.
+</p>
+
+<p>
+In a complex network, the activation is a <a href="https://en.wikipedia.org/wiki/Complex_number">complex number</a>. Complex numbers can be described by their <i>amplitude</i> and <i>phase</i>, or alternatively, their <i>real</i> and <i>imaginary</i> parts. Because complex numbers have two components, they can naturally be plotted in a two-dimensional plane. That is what you see here - a recurrent network of complex neurons that oscillate within the unit circle on the <a href="https://en.wikipedia.org/wiki/Complex_plane">complex plane</a>. When you run your mouse cursor along the network (or run your finger along it when you're mobile), equations are in place to make each neuron is attracted to the cursor.
+</p>
+
+<p>
+This little project was built entirely in Javascript, using <a href="https://d3js.org/">D3.js</a> and <a href="http://mathjs.org/">Math.js</a>.
+</p>
 
 </body>
 </html>
